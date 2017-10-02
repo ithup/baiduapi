@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #container{height:80%;width: 80%}
+    </style>
+   <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4H9zGvm6XOuLdRXN56GIE3n6E0aa8AF4"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <script type="text/javascript">
+        //创建地图实例
+        var map = new BMap.Map("container");
+        var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
+        map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
+        myCity = new BMap.LocalCity();
+        myCity.get(function(e){
+            map.setCenter(e.name);
+            alert(e.name);
+
+        });
+        var geoc = new BMap.Geocoder();
+        map.addEventListener("click", function(e){
+            var pt = e.point; //点击位置的坐标点,
+            geoc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            });
+        });
+
+    </script>
+</body>
+</html>
